@@ -22,10 +22,10 @@ export const App: React.FC = () => {
       <header className="App-header">
         {/* Adicione a classe aqui para que o teste encontre o elemento */}
         {lastKeyPressed === null ? (
-          <h1 className="App__message">Nada foi pressionado ainda</h1>
+          <h1 className="App__message">Nothing was pressed yet</h1>
         ) : (
           <h1 className="App__message">
-            A última tecla pressionada foi: {lastKeyPressed}
+            The last key pressed was: {lastKeyPressed}
           </h1>
         )}
       </header>
