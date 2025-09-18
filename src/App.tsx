@@ -1,34 +1,37 @@
-// App.tsx (modificação para manter o teste)
-import React, { useState, useEffect } from 'react';
+// App.tsx
+import React from 'react';
 import './index.scss';
 
-export const App: React.FC = () => {
-  const [lastKeyPressed, setLastKeyPressed] = useState<string | null>(null);
+export class App extends React.Component<{}, { pressedKey: string | null }> {
+  state = {
+    pressedKey: null,
+  };
 
-  useEffect(() => {
-    const handleKeyUp = (event: KeyboardEvent) => {
-      setLastKeyPressed(event.key);
-    };
+  handleKeyUp = (event: KeyboardEvent) => {
+    this.setState({ pressedKey: event.key });
+  };
 
-    document.addEventListener('keyup', handleKeyUp);
+  componentDidMount() {
+    document.addEventListener('keyup', this.handleKeyUp);
+  }
 
-    return () => {
-      document.removeEventListener('keyup', handleKeyUp);
-    };
-  }, []);
+  componentWillUnmount() {
+    document.removeEventListener('keyup', this.handleKeyUp);
+  }
 
-  return (
-    <div className="App">
-      <header className="App-header">
-        {/* Adicione a classe aqui para que o teste encontre o elemento */}
-        {lastKeyPressed === null ? (
-          <h1 className="App__message">Nothing was pressed yet</h1>
-        ) : (
+  render() {
+    const { pressedKey } = this.state;
+
+    return (
+      <div className="App">
+        <header className="App-header">
           <h1 className="App__message">
-            The last key pressed was: {lastKeyPressed}
+            {pressedKey === null
+              ? 'Nothing was pressed yet'
+              : `The last pressed key is [${pressedKey}]`}
           </h1>
-        )}
-      </header>
-    </div>
-  );
-};
+        </header>
+      </div>
+    );
+  }
+}
